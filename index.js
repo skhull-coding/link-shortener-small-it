@@ -158,7 +158,15 @@ app.post("/urls", (req, res) => {
       });
       newURL.save();
       if (req.body.loggedIn) {
-        if (!allURLsOfUser.includes([url, shortened_url[1]])) {
+        // if (!allURLsOfUser.includes([url, shortened_url[1]])) {
+        //   allURLsOfUser.push([url, shortened_url[1]]);
+        // }
+        let isInURL = allURLsOfUser.some((data) => {
+          if (data[0] == url && data[1] == shortened_url[1]) {
+            return true;
+          }
+        });
+        if (!isInURL) {
           allURLsOfUser.push([url, shortened_url[1]]);
         }
         User.updateOne(
@@ -185,7 +193,16 @@ app.post("/urls", (req, res) => {
     } else {
       let shortenedURL = "http://localhost/" + urL[0].shortened_url;
       if (req.body.loggedIn) {
-        if (!allURLsOfUser.includes([url, shortenedURL])) {
+        // if (!allURLsOfUser.includes([url, shortenedURL])) {
+        //   allURLsOfUser.push([url, shortenedURL]);
+        // }
+
+        let isInURL = allURLsOfUser.some((data) => {
+          if (data[0] == url && data[1] == shortenedURL) {
+            return true;
+          }
+        });
+        if (!isInURL) {
           allURLsOfUser.push([url, shortenedURL]);
         }
         User.updateOne(
@@ -231,14 +248,14 @@ app.post("/get-urls", (req, res) => {
   let user = User.findOne({ t_acC: req.body.t_acC }).exec();
   user.then((val) => {
     if (val) {
-      res.status(200).send(val.urls)
+      res.status(200).send(val.urls);
     } else {
-      res.status(404).send(JSON.stringify({error: "Invalid Request!"}))
+      res.status(404).send(JSON.stringify({ error: "Invalid Request!" }));
     }
   });
-  user.catch(err => {
-    res.status(500).send(JSON.stringify({error: err}))
-  })
+  user.catch((err) => {
+    res.status(500).send(JSON.stringify({ error: err }));
+  });
 });
 
 // For the shortened URLs
