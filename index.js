@@ -158,9 +158,6 @@ app.post("/urls", (req, res) => {
       });
       newURL.save();
       if (req.body.loggedIn) {
-        // if (!allURLsOfUser.includes([url, shortened_url[1]])) {
-        //   allURLsOfUser.push([url, shortened_url[1]]);
-        // }
         let isInURL = allURLsOfUser.some((data) => {
           if (data[0] == url && data[1] == shortened_url[1]) {
             return true;
@@ -193,10 +190,6 @@ app.post("/urls", (req, res) => {
     } else {
       let shortenedURL = "http://localhost/" + urL[0].shortened_url;
       if (req.body.loggedIn) {
-        // if (!allURLsOfUser.includes([url, shortenedURL])) {
-        //   allURLsOfUser.push([url, shortenedURL]);
-        // }
-
         let isInURL = allURLsOfUser.some((data) => {
           if (data[0] == url && data[1] == shortenedURL) {
             return true;
